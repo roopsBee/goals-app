@@ -23,23 +23,24 @@ export type GoalItemType = {
 };
 
 export default function App() {
-  const [textInput, setTextInput] = useState('');
   const [goals, setGoals] = useState<GoalItemType[]>([]);
 
-  const textInputHandler = (text: string) => {
-    setTextInput(text);
-  };
-  const pressHandler = () => {
+  const pressHandler = (textInput: string) => {
     setGoals([...goals, { name: textInput, id: Math.random() }]);
+  };
+
+  const deleteGoalHandler = (id: number) => {
+    const newGoals = goals.filter((goal) => goal.id !== id);
+    setGoals(newGoals);
   };
   return (
     <View style={styles.container}>
-      <GoalInput textInputHandler={textInputHandler} pressHandler={pressHandler} />
+      <GoalInput pressHandler={pressHandler} />
       <View style={styles.goalsContainer}>
         <FlatList
           data={goals}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <GoalItem item={item} />}
+          renderItem={({ item }) => <GoalItem deleteGoalHandler={deleteGoalHandler} item={item} />}
         />
       </View>
     </View>

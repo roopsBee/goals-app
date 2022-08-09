@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -21,11 +22,16 @@ const styles = StyleSheet.create({
 });
 
 type GoalInputType = {
-  textInputHandler: (text: string) => void;
-  pressHandler: () => void;
+  pressHandler: (textInput: string) => void;
 };
 
-const GoalInput = ({ textInputHandler, pressHandler }: GoalInputType) => {
+const GoalInput = ({ pressHandler }: GoalInputType) => {
+  const [textInput, setTextInput] = useState('');
+
+  const textInputHandler = (text: string) => {
+    setTextInput(text);
+  };
+
   return (
     <View style={styles.inputContainer}>
       <TextInput
@@ -33,7 +39,12 @@ const GoalInput = ({ textInputHandler, pressHandler }: GoalInputType) => {
         style={styles.textInput}
         placeholder="Add your app goals"
       />
-      <Button title="Add goal" onPress={pressHandler} />
+      <Button
+        title="Add goal"
+        onPress={() => {
+          pressHandler(textInput);
+        }}
+      />
     </View>
   );
 };
