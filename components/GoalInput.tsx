@@ -1,31 +1,41 @@
 import { useState } from 'react';
-import { Button, StyleSheet, TextInput, View } from 'react-native';
+import { Button, Modal, StyleSheet, TextInput, View } from 'react-native';
 
 const styles = StyleSheet.create({
   inputContainer: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#aaa',
+    marginHorizontal: 10,
   },
   textInput: {
-    width: '70%',
+    width: '100%',
     borderWidth: 1,
     borderColor: '#777',
-    marginRight: 10,
     padding: 5,
-    paddingLeft: 15,
+    paddingHorizontal: 15,
     borderRadius: 5,
+    marginBottom: 15,
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+  },
+  button: {
+    width: '30%',
+    marginHorizontal: 10,
   },
 });
 
 type GoalInputType = {
   pressHandler: (textInput: string) => void;
+  isModalOpen: boolean;
 };
 
-const GoalInput = ({ pressHandler }: GoalInputType) => {
+const GoalInput = ({ pressHandler, isModalOpen }: GoalInputType) => {
   const [textInput, setTextInput] = useState('');
 
   const textInputHandler = (text: string) => {
@@ -33,19 +43,28 @@ const GoalInput = ({ pressHandler }: GoalInputType) => {
   };
 
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        onChangeText={textInputHandler}
-        style={styles.textInput}
-        placeholder="Add your app goals"
-      />
-      <Button
-        title="Add goal"
-        onPress={() => {
-          pressHandler(textInput);
-        }}
-      />
-    </View>
+    <Modal visible={isModalOpen} animationType={'slide'}>
+      <View style={styles.inputContainer}>
+        <TextInput
+          onChangeText={textInputHandler}
+          style={styles.textInput}
+          placeholder="Add your app goals"
+        />
+        <View style={styles.buttonsContainer}>
+          <View style={styles.button}>
+            <Button
+              title="Add goal"
+              onPress={() => {
+                pressHandler(textInput);
+              }}
+            />
+          </View>
+          <View style={styles.button}>
+            <Button title="Cancel" />
+          </View>
+        </View>
+      </View>
+    </Modal>
   );
 };
 

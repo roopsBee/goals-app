@@ -5,8 +5,6 @@ const styles = StyleSheet.create({
   goal: {
     borderRadius: 5,
     marginBottom: 10,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
     marginHorizontal: 20,
     borderColor: '#999',
     borderWidth: 1,
@@ -14,6 +12,8 @@ const styles = StyleSheet.create({
   },
   goalText: {
     color: 'white',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
   },
 });
 
@@ -25,15 +25,16 @@ function GoalItem({
   deleteGoalHandler: (id: number) => void;
 }) {
   return (
-    <Pressable
-      onPress={() => {
-        deleteGoalHandler(item.id);
-      }}
-    >
-      <View style={styles.goal}>
+    <View style={styles.goal}>
+      <Pressable
+        android_ripple={{ color: '#10ab7a' }}
+        onPress={() => {
+          deleteGoalHandler(item.id);
+        }}
+      >
         <Text style={styles.goalText}>{item.name}</Text>
-      </View>
-    </Pressable>
+      </Pressable>
+    </View>
   );
 }
 
